@@ -60,7 +60,7 @@
 
     <br>
 
-    <p id="unread" style="color: white; display: inline-block;"><b> 읽지 않은 메세지</b> <p class="rounded-circle px-2 mx-2" style="display: inline-block; background-color: crimson;">{{ unread | length }}</p></p>
+    <p style="color: white; display: inline-block;"><b> 읽지 않은 메세지</b> <p id="unread" class="rounded-circle px-2 mx-2" style="display: inline-block; background-color: crimson;">{{ unread | length }}</p></p>
 
 
     <ul class="list-group list-group-flush">
@@ -161,7 +161,7 @@
             }
 
             const unread = document.querySelector('#unread')
-            unread.innerText = `읽지 않은 메세지 : ${response.data.noReadMessages}`
+            unread.innerText = `${response.data.noReadMessages}`
           })
         return false
         }
