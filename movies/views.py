@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Message
 import csv
 import requests, json
+from django.core import serializers
 from datetime import datetime, timedelta
 from decouple import config
 from pprint import pprint
@@ -206,5 +207,18 @@ def addRating(request, movie_pk):
     else:
         return HttpResponseBadRequest
     
+@login_required
+def selectMovie(request, genreId):
+    if request.is_ajax():
+        movies = Movie.objects.filter(genres=genreId)
+        if len(movies) > 4:
+            random_nums = random.sample(range(0, len(movies)-1), 4)
+            movies = [movies[num] for num in random_nums]
+        print(movies)
+        # context = {'random_movies': movies}
+        parse_movies = serializers.serialize('json', movies)
+        return HttpResponse(parse_movies, content_type="text/json-comment-filtered")
+    else:
+        return HttpResponseBadRequest 
 
         

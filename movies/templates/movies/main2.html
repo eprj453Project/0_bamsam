@@ -148,7 +148,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
       {% for genre in allGenres %}
-      <button class="dropdown-item genreChoice" id="{{genre.pk}}-genreChoice" type="button" v-on:click="getSelectedMovie({{genre.pk}})" data-name="{{genre.name}}">
+      <button class="dropdown-item genreChoice" type="button" data-id="{{genre.id}}" data-name="{{genre.name}}">
         {{genre.name}}
       </button>
       {% endfor %}
@@ -172,90 +172,44 @@
     </div>
     {% endfor %}
   </div>
-  <div class="row" style="width:100%;">
-    <div v-for="movie in computedByGenre" v-bind:key="movie.id" class="col-12 col-sm-6 col-md-4 col-lg-3 my-3" style="width: 18; display: inline; font-size: 10px;">
-        <a class="text-light text-center text-decoration-none"  :href="'/movies/movie_detail/'+movie.id">
-          <img :src=[[movie.posterUrl]] class="card-img-top" alt=[[movie.title]] class="card-img-top"
-            style="width: 100%; height: 290px;">
-            <p class="card-title rounded-bottom py-2 text-dark"
-              style="background-color: rgba(250, 250, 250, 0.5); font-size: 20px; font-family: 'Black Han Sans';,'Noto Sans KR', sans-serif;, 'Nanum Myeongjo', serif;">
-            [[movie.title]]</p>
-        </a>
-      </div>
-  </div>
 
+</div>
+<div id="showMovies" class="row" style="margin-bottom: 100px;">
 </div>
 
 {% endblock content2 %}
 
 {% block script %}
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 const app = new Vue({
-  delimiters: ["[[", "]]"],
   el: '#app',
   data: {
     selectedMovie: [],
   },
   methods: {
-    getSelectedMovie(genreId) {
-      //const choiceBtn = document.querySelector(`#${genreId}-genreChoice`)
-      //console.log(choiceBtn.innerText)
-      axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-      axios.defaults.xsrfCookieName = 'csrftoken'
-      axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-      selectUrl = `/movies/select/${genreId}/`
-      axios.post(selectUrl)
-        .then(response => {
-       //   console.log(response.data)
-        //  console.log(typeof(response.data))
-          const insertMovie = []
-          for (data of response.data) {
-            insertMovie.push({
-              id: data.pk,
-              title: data.fields.title,
-              posterUrl: "https://image.tmdb.org/t/p/original"+ data.fields.poster_url
-
-            })
-          }
-          this.selectedMovie = insertMovie
-         // console.log(insertMovie)
-        //  console.log(selectedMovie)
-        })
-        .catch(error => {
-          console.log(error)
-});
-    }
-  },
-  computed: {
-    computedByGenre: function() {
-      return this.selectedMovie
-    }
-  },
-  mounted() {
-
+    
   }
 })
 </script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
 
+    },
+    methods: {
+
+    },
+    computed: {
+
+    }
+  })
+</script>
 <script type="text/javascript">
   const genreBtns = document.querySelectorAll('.genreChoice')
-  genreBtns.forEach(btn => {
-    btn.addEventListener('click', function(event){
-
-      const choiceGenre = event.target.dataset.name
-      const genreDropDown = document.querySelector(`#genreDropDown`)
-      const choiceBtn = document.querySelector(`#${choiceGenre}-genreChoice`)
-      genreDropDown.innerText = choiceGenre
-
-    })
-  })
-
-  {% comment %} const genreBtns = document.querySelectorAll('.genreChoice')
   const allMovies = document.querySelectorAll('.selectedMovie')
   const showMovies = document.querySelector('#showMovies')
-
 
   genreBtns.forEach(btn => {
     btn.addEventListener('click', function (event) {
@@ -304,7 +258,7 @@ const app = new Vue({
       const dropDown = document.querySelector('#genreDropDown')
       dropDown.innerText = genreName
     })
-  }) {% endcomment %}
+  })
 
   const teaserBtns = document.querySelectorAll('.teaser')
   teaserBtns.forEach(btn => {

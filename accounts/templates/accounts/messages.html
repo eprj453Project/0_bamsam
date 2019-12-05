@@ -73,7 +73,6 @@
               data-id="{{message.pk}}" data-userId="{{request.user.pk}}" data-isRead="{{message.is_read}}"  onclick="return false;">
               <b>{{message.send}}</b> | {{ message.comment}}
             </a>
-
           {% else %}
             <a href="#" class="{{message.pk}} mes" style="text-decoration: none; color: red;" 
               data-id="{{message.pk}}" data-userId="{{request.user.pk}}" data-isRead="{{message.is_read}}" onclick="return false;">
@@ -86,12 +85,10 @@
 
 
     <div id="modal" class="modal text-center my-auto" tabindex="-1" role="dialog">
-
       <form action="{% url 'accounts:send_message' %}" method="POST" id="messageForm">
         {% csrf_token %}
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-
             <div class="modal-header">
               <h5 class="modal-title">메세지 보내기</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -135,13 +132,15 @@
   <script type="text/javascript">
     const messageCount = document.querySelector('.messageCount')
     const messages = document.querySelectorAll(`.mes`)
+
+    sendReply = function(){
+      
+    }
+
     messages.forEach(button => {
       button.addEventListener('click', function(event) {
-        //console.log(button)
-        //console.log(event)
         if (event.target.dataset.isread == true) {
-          console.log('읽음')
-          return false
+          
         }
         else {
         const messageId = event.target.dataset.id
